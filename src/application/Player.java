@@ -26,6 +26,7 @@ public class Player extends BorderPane {
 		setBottom(bar);
 
 		player.play();
+		
 	}
 
 }

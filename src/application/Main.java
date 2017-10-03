@@ -29,21 +29,30 @@ public class Main extends Application {
 		open.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
 				player.player.pause();
-				File file = fileChooser.showOpenDialog(primaryStage);
-				if (file != null) {
+				player.bar.playButton.setText(">");
+				File filec = fileChooser.showOpenDialog(primaryStage);
+				if (filec != null) {
 					try {
-						player = new Player(file.toURI().toURL().toExternalForm());
+						player = new Player(filec.toURI().toURL().toExternalForm());
+						player.setTop(menu);
+						Scene scene = new Scene(player, 640, 480);
+						primaryStage.setScene(scene);
+						player.player.setOnReady(new Runnable() {
+							@Override
+							public void run() {
+								primaryStage.setWidth(player.player.getMedia().getWidth() + 15);
+								primaryStage.setHeight(player.player.getMedia().getHeight() + 120);
+								primaryStage.setMinWidth(640);
+								primaryStage.setMinHeight(480);
+							}
+						});
 					} catch (MalformedURLException e1) {
 						e1.printStackTrace();
 					}
-					Scene scene = new Scene(player, 640, 380);
-					primaryStage.setScene(scene);
-					player.setTop(menu);
+					
 				}
-
 			}
 		});
-
 		player = new Player("file:///C:/Users/Jackie/Downloads/test/toystory.mp4");
 		player.setTop(menu);
 		Scene scene = new Scene(player, 640, 380);

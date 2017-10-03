@@ -20,7 +20,9 @@ public class MediaBar extends HBox {
 	Slider time = new Slider();
 	Slider vol = new Slider();
 
-	Button playButton = new Button("||");
+	Button playButton = new Button("PAUSE");
+	Button stopButton = new Button("STOP");
+
 	Label volume = new Label("Volume:");
 
 	MediaPlayer player;
@@ -37,9 +39,10 @@ public class MediaBar extends HBox {
 
 		HBox.setHgrow(time, Priority.ALWAYS);
 
-		playButton.setPrefWidth(40);
+
 
 		getChildren().add(playButton);
+		getChildren().add(stopButton);
 		getChildren().add(time);
 		getChildren().add(volume);
 		getChildren().add(vol);
@@ -53,12 +56,12 @@ public class MediaBar extends HBox {
 						player.play();
 					} else {
 						player.pause();
-						playButton.setText(">");
+						playButton.setText("PLAY");
 					}
 				}
 				if (status == Status.PAUSED || status == Status.HALTED || status == Status.STOPPED) {
 					player.play();
-					playButton.setText("||");
+					playButton.setText("PAUSE");
 				}
 			}
 

@@ -106,7 +106,12 @@ public class SampleController implements Initializable {
 			}
 		@FXML
 		private void handleMute(ActionEvent event){
+			if (mp.isMute() == false) {
 			mp.setMute(true);
+		} 
+			else {
+			mp.setMute(false);
+		}
 	
 			
 			}

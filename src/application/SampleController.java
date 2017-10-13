@@ -15,6 +15,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.beans.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,141 +27,161 @@ import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.beans.property.adapter.*;
 
-
 public class SampleController implements Initializable {
-	// global varible to open a path of a file 
+	// global varible to open a path of a file
 	private String filePath;
-	//media paler 
+	// media paler
 	private MediaPlayer mp;
 	@FXML
 	private MediaView mv;
-	
-	//create object for the slider 
-	@FXML 
-	private  Slider volSlider;
-	@FXML 
-	private Slider timeSlider;
-	@FXML 
-	private void handleButtonAction(ActionEvent event){
-		FileChooser OpenFile=new FileChooser();
-		//to select kind of file we want to open 
-		FileChooser.ExtensionFilter filter=new FileChooser.ExtensionFilter("Select the file .mp4 file","*.mp4");
-		OpenFile.getExtensionFilters().add(filter);
-		File of=OpenFile.showOpenDialog(null);
-		filePath=of.toURI().toString();
-	
-		
 
-		//to create the media player 
-		if(filePath != null)
-		{
-		Media media =new Media(filePath);
-		mp=new MediaPlayer(media);
-		mv.setMediaPlayer(mp);
-		mv.autosize();
-		DoubleProperty w=mv.fitWidthProperty();
-		DoubleProperty h=mv.fitHeightProperty();
-		w.bind(Bindings.selectDouble(mv.sceneProperty(), "w"));
-		h.bind(Bindings.selectDouble(mv.sceneProperty(), "h"));
-		
-		volSlider.setValue(mp.getVolume()* 100);
-		volSlider.valueProperty().addListener(new InvalidationListener() {
-			@Override
-			public void invalidated(javafx.beans.Observable observable) {
-				mp.setVolume(volSlider.getValue() / 100);
-					}});
-		
-		
-/*mp.currentTimeProperty().addListener(new ChangeListener<Duration>()
-	{
-	@Overrride
-	public void changed(ObservableValue<? extends Duration> observable, Duration oldv, Duration newV) {
-		timeSlider.setValue(newValue.toMilly());
-	}
-});*/ //(ZHAOYANG)
-		mp.play();
-		}
-	}
-	
+	// create object for the slider
 	@FXML
-	private void handlePause(ActionEvent event){
-		mp.pause();
-		}
-		@FXML
-		private void handleStop(ActionEvent event){
-			mp.stop();
-			}
-		@FXML
-		private void handlePlay(ActionEvent event){
+	private Slider volSlider;
+	@FXML
+	private Slider timeSlider;
+
+	@FXML
+	private void handleButtonAction(ActionEvent event) {
+		FileChooser OpenFile = new FileChooser();
+		// to select kind of file we want to open
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select the file .mp4 file", "*.mp4");
+		OpenFile.getExtensionFilters().add(filter);
+		File of = OpenFile.showOpenDialog(null);
+		filePath = of.toURI().toString();
+
+		// to create the media player
+		if (filePath != null) {
+			Media media = new Media(filePath);
+			mp = new MediaPlayer(media);
+			mv.setMediaPlayer(mp);
+			mv.autosize();
+			DoubleProperty w = mv.fitWidthProperty();
+			DoubleProperty h = mv.fitHeightProperty();
+			w.bind(Bindings.selectDouble(mv.sceneProperty(), "w"));
+			h.bind(Bindings.selectDouble(mv.sceneProperty(), "h"));
+
+			volSlider.setValue(mp.getVolume() * 100);
+			volSlider.valueProperty().addListener(new InvalidationListener() {
+				@Override
+				public void invalidated(javafx.beans.Observable observable) {
+					mp.setVolume(volSlider.getValue() / 100);
+				}
+			});
 			
+			mp.currentTimeProperty().addListener(new InvalidationListener() {
+				public void invalidated(javafx.beans.Observable observable) {
+					Platform.runLater(new Runnable() {
+						public void run() {
+							timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
+						}
+					});
+				}
+			});
+			
+			timeSlider.valueProperty().addListener(new InvalidationListener() {
+				public void invalidated(javafx.beans.Observable observable) {
+					if (timeSlider.isPressed()) {
+						mp.seek(mp.getMedia().getDuration().multiply(timeSlider.getValue() / 100));
+					}
+				}
+			});
+
 			mp.play();
-			}
-		@FXML
-		private void handleBack(ActionEvent event){
-			
-		mp.setRate(.75);
-			}
-		@FXML
-		private void handleForward(ActionEvent event){
-			mp.setRate(1.5);
-			}
-		@FXML
-		private void handleMute(ActionEvent event){
-			mp.setMute(true);
-	
-			
-			}
-		
-		@FXML
-		private void handleExit(ActionEvent event){
-			
-System.exit(0);
 		}
-		
-		@FXML
-		private void handleConvertFile(ActionEvent event){
-			//write the function here (Adam)
-			}
-			@FXML
-			private void handleSpeed(ActionEvent event){
-				
-				}
-			@FXML
-			private void handlePlayList(ActionEvent event){
-				
-				//write the function here (Matthew)
-				}
-			@FXML
-			private void handleFullScreen(ActionEvent event){
-				// wwrite the function here (Faisal) 
-			
-				}
-			@FXML
-			private void handleBrightness(ActionEvent event){
-				//HODA
-				}
-			@FXML
-			private void handlBackgroundColor(ActionEvent event){
-				//HODA
-		
-				
-				}
-			@FXML
-			private void handleHelp(ActionEvent event){
-				
-				}
-			@FXML
-			private void handlAbout(ActionEvent event){
-				//HODA
-		
-				
-				}
-			
-		
-		
+	}
+
+	@FXML
+	private void handlePause(ActionEvent event) {
+		mp.pause();
+	}
+
+	@FXML
+	private void handleStop(ActionEvent event) {
+		mp.stop();
+	}
+
+	@FXML
+	private void handlePlay(ActionEvent event) {
+
+		mp.play();
+	}
+
+	@FXML
+	private void handleBack(ActionEvent event) {
+
+		mp.setRate(.75);
+	}
+
+	@FXML
+	private void handleForward(ActionEvent event) {
+		mp.setRate(1.5);
+	}
+
+	@FXML
+	private void handleMute(ActionEvent event) {
+		if (mp.isMute() == false) {
+			mp.setMute(true);
+		} else {
+			mp.setMute(false);
+		}
+
+	}
+
+	@FXML
+	private void handleExit(ActionEvent event) {
+
+		System.exit(0);
+		}
+
+	@FXML
+	private void handleConvertFile(ActionEvent event) {
+		// write the function here (Adam)
+	}
+
+	@FXML
+	private void handleSpeed(ActionEvent event) {
+
+	}
+
+	@FXML
+	private void handlePlayList(ActionEvent event) {
+
+		// write the function here (Matthew)
+	}
+
+	@FXML
+	private void handleFullScreen(ActionEvent event) {
+		// wwrite the function here (Faisal)
+
+	}
+
+	@FXML
+	private void handleBrightness(ActionEvent event) {
+		// HODA
+	}
+
+	@FXML
+	private void handlBackgroundColor(ActionEvent event) {
+		// HODA
+
+	}
+
+	@FXML
+	private void handleHelp(ActionEvent event) {
+
+	}
+
+	@FXML
+	private void handlAbout(ActionEvent event) {
+		// HODA
+
+	}
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		
+
 	}
-	
+
 }
+

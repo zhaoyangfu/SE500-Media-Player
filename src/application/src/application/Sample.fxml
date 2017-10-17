@@ -2,6 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -64,4 +67,41 @@
          </children>
       </StackPane>
    </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="MopenFile" mnemonicParsing="false" onAction="#handleButtonAction" onMenuValidation="#handleButtonAction" text="Open File " />
+                  <MenuItem fx:id="converFile" mnemonicParsing="false" onAction="#handleConvertFile" text="Convert File" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Playback">
+            <items>
+              <MenuItem fx:id="speed" mnemonicParsing="false" onAction="#handleSpeed" text="speed" />
+                  <MenuItem fx:id="Mforward" mnemonicParsing="false" onAction="#handleForward" text="Jump Forward" />
+                  <MenuItem fx:id="Mbackward" mnemonicParsing="false" onAction="#handleBack" text="Jump Backward " />
+                  <MenuItem mnemonicParsing="false" text="Jumb to specific time" />
+                  <MenuItem fx:id="Mpay" mnemonicParsing="false" onAction="#handlePlay" text="Play" />
+                  <MenuItem fx:id="Mstop" mnemonicParsing="false" onAction="#handleStop" text="Stop" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="View">
+            <items>
+              <MenuItem fx:id="palyList" mnemonicParsing="false" onAction="#handlePlayList" text="Play List" />
+                  <MenuItem fx:id="fullScreen" mnemonicParsing="false" onAction="#handleFullScreen" text="Full Screen" />
+                  <MenuItem fx:id="Brightness" mnemonicParsing="false" onAction="#handleBrightness" text="Brightness" />
+                  <MenuItem fx:id="color" mnemonicParsing="false" onAction="#handlBackgroundColor" text="Background Color" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem fx:id="help" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+                  <MenuItem fx:id="about" mnemonicParsing="false" onAction="#handlAbout" text="About" />
+                  <MenuItem fx:id="close" mnemonicParsing="false" onAction="#handleExit" text="Close" />
+               </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+   </top>
 </BorderPane>

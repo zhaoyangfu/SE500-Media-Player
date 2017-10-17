@@ -2,6 +2,7 @@ package application;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Observable;
@@ -136,7 +137,34 @@ public class SampleController implements Initializable {
 
 	@FXML
 	private void handleConvertFile(ActionEvent event) {
-		// write the function here (Adam)
+		// FUNCTION TO CONVERT FILES TO MP4
+		FileChooser ConvertFile = new FileChooser();
+		// to select the file we want to convert
+
+		File of = ConvertFile.showOpenDialog(null);
+		//filepath of file to be converted
+		String ipfilePath = of.toURI().toString();
+		
+		//convert ipfilePath string to correct format to use in conversion
+		ipfilePath = ipfilePath.replaceAll("file:/", "");
+		
+		//set filepath of converted file to the current directory
+		String opfilePath = System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4";
+		
+		//set filepath of the ffmpeg and ffprobe executables (must be installed in the run directory of the application)
+		String ffmpegdir = System.getProperty("user.dir")+"\\ffmpeg.exe";
+		String ffprobedir = System.getProperty("user.dir")+"\\ffprobe.exe";
+		
+		System.out.println(ffmpegdir);
+		System.out.println(ffprobedir);
+		
+		//use the MP4Converter class to convert the file
+		MP4Converter mp4Converter = new MP4Converter(ffmpegdir, ffprobedir);
+		try {
+			mp4Converter.convert(ipfilePath, opfilePath);
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

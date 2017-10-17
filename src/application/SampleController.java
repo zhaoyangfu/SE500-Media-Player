@@ -46,52 +46,21 @@ public class SampleController implements Initializable {
 	private void handleButtonAction(ActionEvent event) {
 		FileChooser OpenFile = new FileChooser();
 		// to select kind of file we want to open
-		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select the file .mp4 file", "*.mp4");
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select the media file to play", "*.mp4", "*.mkv", "*.flv", "*.3gp", "*.avi", "*.mp3", "*.wmv");
 		OpenFile.getExtensionFilters().add(filter);
 		File of = OpenFile.showOpenDialog(null);
 		filePath = of.toURI().toString();
-
-		// to create the media player
-		if (filePath != null) {
-			Media media = new Media(filePath);
-			mp = new MediaPlayer(media);
-			mv.setMediaPlayer(mp);
-			mv.autosize();
-			DoubleProperty w = mv.fitWidthProperty();
-			DoubleProperty h = mv.fitHeightProperty();
-			w.bind(Bindings.selectDouble(mv.sceneProperty(), "w"));
-			h.bind(Bindings.selectDouble(mv.sceneProperty(), "h"));
-
-			volSlider.setValue(mp.getVolume() * 100);
-			volSlider.valueProperty().addListener(new InvalidationListener() {
-				@Override
-				public void invalidated(javafx.beans.Observable observable) {
-					mp.setVolume(volSlider.getValue() / 100);
-				}
-			});
-			
-			mp.currentTimeProperty().addListener(new InvalidationListener() {
-				public void invalidated(javafx.beans.Observable observable) {
-					Platform.runLater(new Runnable() {
-						public void run() {
-							timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
-						}
-					});
-				}
-			});
-			
-			timeSlider.valueProperty().addListener(new InvalidationListener() {
-				public void invalidated(javafx.beans.Observable observable) {
-					if (timeSlider.isPressed()) {
-						mp.seek(mp.getMedia().getDuration().multiply(timeSlider.getValue() / 100));
-					}
-				}
-			});
-
-			mp.play();
+		
+		//Check to see if the file is an mp4 or mp3 and if not, convert the file first
+		if(filePath.endsWith(".mp4") || filePath.endsWith(".mp3")) {
+			PlayFile(filePath);
+		}else {
+			String convfilepath = ConvertFile2MP4(filePath);
+			convfilepath = convfilepath.replace("\\", "/");
+			convfilepath = "file:/" + convfilepath;
+			PlayFile(convfilepath);
 		}
-	}
-
+	}	
 	@FXML
 	private void handlePause(ActionEvent event) {
 		mp.pause();
@@ -145,26 +114,9 @@ public class SampleController implements Initializable {
 		//filepath of file to be converted
 		String ipfilePath = of.toURI().toString();
 		
-		//convert ipfilePath string to correct format to use in conversion
-		ipfilePath = ipfilePath.replaceAll("file:/", "");
 		
-		//set filepath of converted file to the current directory
-		String opfilePath = System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4";
 		
-		//set filepath of the ffmpeg and ffprobe executables (must be installed in the run directory of the application)
-		String ffmpegdir = System.getProperty("user.dir")+"\\ffmpeg.exe";
-		String ffprobedir = System.getProperty("user.dir")+"\\ffprobe.exe";
 		
-		System.out.println(ffmpegdir);
-		System.out.println(ffprobedir);
-		
-		//use the MP4Converter class to convert the file
-		MP4Converter mp4Converter = new MP4Converter(ffmpegdir, ffprobedir);
-		try {
-			mp4Converter.convert(ipfilePath, opfilePath);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@FXML
@@ -209,6 +161,68 @@ public class SampleController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 
+	}
+	
+	public void PlayFile(String filePath) {
+		// to create the media player
+		if (filePath != null) {
+			Media media = new Media(filePath);
+			mp = new MediaPlayer(media);
+			mv.setMediaPlayer(mp);
+			mv.autosize();
+			DoubleProperty w = mv.fitWidthProperty();
+			DoubleProperty h = mv.fitHeightProperty();
+			w.bind(Bindings.selectDouble(mv.sceneProperty(), "w"));
+			h.bind(Bindings.selectDouble(mv.sceneProperty(), "h"));
+
+			volSlider.setValue(mp.getVolume() * 100);
+			volSlider.valueProperty().addListener(new InvalidationListener() {
+				@Override
+				public void invalidated(javafx.beans.Observable observable) {
+					mp.setVolume(volSlider.getValue() / 100);
+				}
+			});
+					
+			mp.currentTimeProperty().addListener(new InvalidationListener() {
+				public void invalidated(javafx.beans.Observable observable) {
+					Platform.runLater(new Runnable() {
+						public void run() {
+							timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
+						}
+					});
+				}
+			});
+					
+			timeSlider.valueProperty().addListener(new InvalidationListener() {
+				public void invalidated(javafx.beans.Observable observable) {
+					if (timeSlider.isPressed()) {
+						mp.seek(mp.getMedia().getDuration().multiply(timeSlider.getValue() / 100));
+					}
+				}
+			});
+				mp.play();
+		}
+	}
+	
+	public String ConvertFile2MP4(String ipfilePath) {
+		//convert ipfilePath string to correct format to use in conversion
+		ipfilePath = ipfilePath.replaceAll("file:/", "");
+		
+		//set filepath of converted file to the current directory
+		String opfilePath = System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4";
+				
+		//set filepath of the ffmpeg and ffprobe executables (must be installed in the run directory of the application)
+		String ffmpegdir = System.getProperty("user.dir")+"\\ffmpeg.exe";
+		String ffprobedir = System.getProperty("user.dir")+"\\ffprobe.exe";
+			
+		//use the MP4Converter class to convert the file
+		MP4Converter mp4Converter = new MP4Converter(ffmpegdir, ffprobedir);
+		try {
+			mp4Converter.convert(ipfilePath, opfilePath);
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		return opfilePath;
 	}
 
 }

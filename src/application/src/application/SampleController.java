@@ -1,22 +1,15 @@
 package application;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.net.URL;
-import java.time.Duration;
-import java.util.Observable;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
-
-import javax.swing.event.ChangeListener;
-
-import com.sun.javafx.tk.Toolkit;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.application.Platform;
-import javafx.beans.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -25,7 +18,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
-import javafx.beans.property.adapter.*;
 
 public class SampleController implements Initializable {
 	// global varible to open a path of a file

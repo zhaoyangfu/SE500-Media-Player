@@ -34,7 +34,14 @@ public class SampleController implements Initializable {
 	private MediaPlayer mp;
 	@FXML
 	private MediaView mv;
-
+	
+	//create text field for current time
+	@FXML
+	private Label text1;
+	
+	//create text field for total duration
+	@FXML
+	private Label text2;
 	// create object for the slider
 	@FXML
 	private Slider volSlider;
@@ -68,12 +75,17 @@ public class SampleController implements Initializable {
 					mp.setVolume(volSlider.getValue() / 100);
 				}
 			});
-			
+	// time slider function (Zhaoyang added)		
 			mp.currentTimeProperty().addListener(new InvalidationListener() {
 				public void invalidated(javafx.beans.Observable observable) {
 					Platform.runLater(new Runnable() {
 						public void run() {
+							double currentTime = mp.getCurrentTime().toSeconds();
+							double totalTime = mp.getTotalDuration().toSeconds();
+							DecimalFormat df = new DecimalFormat("#.##");
 							timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
+							text1.setText(df.format(currentTime));
+							text2.setText("/ " + df.format(totalTime));
 						}
 					});
 				}
@@ -101,9 +113,18 @@ public class SampleController implements Initializable {
 		mp.stop();
 	}
 
+	//Zhaoyang modified:
 	@FXML
 	private void handlePlay(ActionEvent event) {
-
+		mp.currentTimeProperty().addListener(new InvalidationListener() {
+			public void invalidated(javafx.beans.Observable observable) {
+				Platform.runLater(new Runnable() {
+					public void run() {
+						timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
+					}
+				});
+			}
+		});
 		mp.play();
 	}
 

@@ -1,15 +1,23 @@
-package application;
-
+import java.awt.Dimension;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.Observable;
 import java.util.ResourceBundle;
+
+import javax.swing.event.ChangeListener;
+
+import com.sun.javafx.tk.Toolkit;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.application.Platform;
+import javafx.beans.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -18,6 +26,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
+import javafx.beans.property.adapter.*;
 
 public class SampleController implements Initializable {
 	// global varible to open a path of a file
@@ -39,59 +48,34 @@ public class SampleController implements Initializable {
 	private Slider volSlider;
 	@FXML
 	private Slider timeSlider;
-
+	
+	//Adam modified - now involves two new functions (ConvertFile2MP4 and PlayFile) defined at bottom of this class
 	@FXML
 	private void handleButtonAction(ActionEvent event) {
 		FileChooser OpenFile = new FileChooser();
 		// to select kind of file we want to open
-		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select the file .mp4 file", "*.mp4");
+		FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select the media file to play", "*.mp4", "*.mkv", "*.flv", "*.3gp", "*.avi", "*.mp3", "*.wmv");
 		OpenFile.getExtensionFilters().add(filter);
 		File of = OpenFile.showOpenDialog(null);
 		filePath = of.toURI().toString();
-
-		// to create the media player
-		if (filePath != null) {
-			Media media = new Media(filePath);
-			mp = new MediaPlayer(media);
-			mv.setMediaPlayer(mp);
-			mv.autosize();
-			DoubleProperty w = mv.fitWidthProperty();
-			DoubleProperty h = mv.fitHeightProperty();
-			w.bind(Bindings.selectDouble(mv.sceneProperty(), "w"));
-			h.bind(Bindings.selectDouble(mv.sceneProperty(), "h"));
-
-			volSlider.setValue(mp.getVolume() * 100);
-			volSlider.valueProperty().addListener(new InvalidationListener() {
-				@Override
-				public void invalidated(javafx.beans.Observable observable) {
-					mp.setVolume(volSlider.getValue() / 100);
-				}
-			});
-	// time slider function (Zhaoyang added)		
-			mp.currentTimeProperty().addListener(new InvalidationListener() {
-				public void invalidated(javafx.beans.Observable observable) {
-					Platform.runLater(new Runnable() {
-						public void run() {
-							double currentTime = mp.getCurrentTime().toSeconds();
-							double totalTime = mp.getTotalDuration().toSeconds();
-							DecimalFormat df = new DecimalFormat("#.##");
-							timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
-							text1.setText(df.format(currentTime));
-							text2.setText("/ " + df.format(totalTime));
-						}
-					});
-				}
-			});
-			
-			timeSlider.valueProperty().addListener(new InvalidationListener() {
-				public void invalidated(javafx.beans.Observable observable) {
-					if (timeSlider.isPressed()) {
-						mp.seek(mp.getMedia().getDuration().multiply(timeSlider.getValue() / 100));
-					}
-				}
-			});
-
-			mp.play();
+		
+		//Check to see if the file is an mp4 or mp3 and if not, convert the file first
+		if(filePath.endsWith(".mp4") || filePath.endsWith(".mp3")) {
+			//Play the file
+			PlayFile(filePath);
+		}else {
+			//If there is already a converted file on the desktop, delete it first to ensure the system doesnt lock up
+			try {
+				Files.deleteIfExists(Paths.get(System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//Convert the file to MP4 and process the file path to the correct format for the PlayFile function
+			String convfilepath = ConvertFile2MP4(filePath);
+			convfilepath = convfilepath.replace("\\", "/");
+			convfilepath = "file:/" + convfilepath;
+			//Play the file
+			PlayFile(convfilepath);
 		}
 	}
 
@@ -195,6 +179,72 @@ public class SampleController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 
 	}
+	public void PlayFile(String filePath) {
+		// to create the media player
+		if (filePath != null) {
+			Media media = new Media(filePath);
+			mp = new MediaPlayer(media);
+			mv.setMediaPlayer(mp);
+			mv.autosize();
+			DoubleProperty w = mv.fitWidthProperty();
+			DoubleProperty h = mv.fitHeightProperty();
+			w.bind(Bindings.selectDouble(mv.sceneProperty(), "w"));
+			h.bind(Bindings.selectDouble(mv.sceneProperty(), "h"));
 
+			volSlider.setValue(mp.getVolume() * 100);
+			volSlider.valueProperty().addListener(new InvalidationListener() {
+				@Override
+				public void invalidated(javafx.beans.Observable observable) {
+					mp.setVolume(volSlider.getValue() / 100);
+				}
+			});
+					
+			// time slider function (Zhaoyang added)		
+			mp.currentTimeProperty().addListener(new InvalidationListener() {
+				public void invalidated(javafx.beans.Observable observable) {
+					Platform.runLater(new Runnable() {
+						public void run() {
+							double currentTime = mp.getCurrentTime().toSeconds();
+							double totalTime = mp.getTotalDuration().toSeconds();
+							DecimalFormat df = new DecimalFormat("#.##");
+							timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
+							text1.setText(df.format(currentTime));
+							text2.setText("/ " + df.format(totalTime));
+						}
+					});
+				}
+			});
+					
+			timeSlider.valueProperty().addListener(new InvalidationListener() {
+				public void invalidated(javafx.beans.Observable observable) {
+					if (timeSlider.isPressed()) {
+						mp.seek(mp.getMedia().getDuration().multiply(timeSlider.getValue() / 100));
+					}
+				}
+			});
+				mp.play();
+		}
+	}
+	
+	public String ConvertFile2MP4(String ipfilePath) {
+		//convert ipfilePath string to correct format to use in conversion
+		ipfilePath = ipfilePath.replaceAll("file:/", "");
+		
+		//set filepath of converted file to the current directory
+		String opfilePath = System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4";
+				
+		//set filepath of the ffmpeg and ffprobe executables (must be installed in the run directory of the application)
+		String ffmpegdir = System.getProperty("user.dir")+"\\ffmpeg.exe";
+		String ffprobedir = System.getProperty("user.dir")+"\\ffprobe.exe";
+			
+		//use the MP4Converter class to convert the file
+		MP4Converter mp4Converter = new MP4Converter(ffmpegdir, ffprobedir);
+		try {
+			mp4Converter.convert(ipfilePath, opfilePath);
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+		return opfilePath;
+	}
 }
 

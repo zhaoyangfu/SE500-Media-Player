@@ -54,6 +54,22 @@
                      <HBox.margin>
                         <Insets right="1.0" />
                      </HBox.margin></Button>
+                         <Label fx:id="text1" prefHeight="21.0" prefWidth="38.0" text="Time" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="text2" text="Total" textFill="WHITE">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
                </children>
             </HBox>
          </children>

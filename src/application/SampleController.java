@@ -22,12 +22,14 @@ import javafx.event.ActionEvent;
 import javafx.application.Platform;
 import javafx.beans.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 import javafx.beans.property.adapter.*;
 
@@ -49,6 +51,8 @@ public class SampleController implements Initializable {
 	private Slider volSlider;
 	@FXML
 	private Slider timeSlider;
+	
+
 
 	@FXML
 	private void handleButtonAction(ActionEvent event) {
@@ -150,7 +154,12 @@ public class SampleController implements Initializable {
 	@FXML
 	private void handleFullScreen(ActionEvent event) {
 		// wwrite the function here (Faisal)
-
+		 Stage stage = (Stage) volSlider.getScene().getWindow();
+		 if(stage.isFullScreen()) {
+			 stage.setFullScreen(false);
+		 }else {
+			 stage.setFullScreen(true);
+		 }
 	}
 
 	@FXML

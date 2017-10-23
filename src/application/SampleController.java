@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Observable;
 import java.util.ResourceBundle;
@@ -53,11 +55,20 @@ public class SampleController implements Initializable {
 		
 		//Check to see if the file is an mp4 or mp3 and if not, convert the file first
 		if(filePath.endsWith(".mp4") || filePath.endsWith(".mp3")) {
+			//Play the file
 			PlayFile(filePath);
 		}else {
+			//If there is already a converted file on the desktop, delete it first to ensure the system doesnt lock up
+			try {
+				Files.deleteIfExists(Paths.get(System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			//Convert the file to MP4 and process the file path to the correct format for the PlayFile function
 			String convfilepath = ConvertFile2MP4(filePath);
 			convfilepath = convfilepath.replace("\\", "/");
 			convfilepath = "file:/" + convfilepath;
+			//Play the file
 			PlayFile(convfilepath);
 		}
 	}	

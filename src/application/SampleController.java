@@ -25,13 +25,14 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
 import javafx.beans.property.adapter.*;
+import java.util.ArrayList;
 
 
 public class SampleController implements Initializable {
 	// global variable to open a path of a file 
 	private String filePath;
 	//media paler 
-	private double[] list = {};
+	private static String[] filenames;
 	private MediaPlayer mp;
 	@FXML
 	private MediaView mv;

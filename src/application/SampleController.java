@@ -134,10 +134,6 @@ public class SampleController implements Initializable {
 		File of = ConvertFile.showOpenDialog(null);
 		//filepath of file to be converted
 		String ipfilePath = of.toURI().toString();
-		
-		
-		
-		
 	}
 
 	@FXML
@@ -153,12 +149,21 @@ public class SampleController implements Initializable {
 
 	@FXML
 	private void handleFullScreen(ActionEvent event) {
-		// wwrite the function here (Faisal)
+		// write the function here (Faisal)
 		 Stage stage = (Stage) volSlider.getScene().getWindow();
 		 if(stage.isFullScreen()) {
 			 stage.setFullScreen(false);
+			 DoubleProperty w = mv.fitWidthProperty();
+			 DoubleProperty h = mv.fitHeightProperty();
+			 w.bind(Bindings.selectDouble(mv.sceneProperty(), "w"));
+			 h.bind(Bindings.selectDouble(mv.sceneProperty(), "h"));
+			 
 		 }else {
 			 stage.setFullScreen(true);
+	         DoubleProperty width = mv.fitWidthProperty();
+	         DoubleProperty height = mv.fitHeightProperty();
+	         width.bind(Bindings.selectDouble(mv.sceneProperty(), "width"));
+	         height.bind(Bindings.selectDouble(mv.sceneProperty(), "height"));
 		 }
 	}
 

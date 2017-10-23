@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <AnchorPane prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <ListView layoutX="1.0" layoutY="8.0" prefHeight="538.0" prefWidth="600.0" />
+            <Button layoutX="254.0" layoutY="560.0" mnemonicParsing="false" text="Add Media" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

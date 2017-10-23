@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.Observable;
 import java.util.ResourceBundle;
@@ -37,7 +38,12 @@ public class SampleController implements Initializable {
 	private MediaPlayer mp;
 	@FXML
 	private MediaView mv;
-
+	//create text field for current time
+	@FXML
+	private Label text1;
+	//create text field for total duration
+	@FXML
+	private Label text2;
 	// create object for the slider
 	@FXML
 	private Slider volSlider;
@@ -194,11 +200,17 @@ public class SampleController implements Initializable {
 				}
 			});
 					
+			// time slider function (Zhaoyang added)		
 			mp.currentTimeProperty().addListener(new InvalidationListener() {
 				public void invalidated(javafx.beans.Observable observable) {
 					Platform.runLater(new Runnable() {
 						public void run() {
+							double currentTime = mp.getCurrentTime().toSeconds();
+							double totalTime = mp.getTotalDuration().toSeconds();
+							DecimalFormat df = new DecimalFormat("#.##");
 							timeSlider.setValue(mp.getCurrentTime().toMillis() / mp.getTotalDuration().toMillis() * 100);
+							text1.setText(df.format(currentTime));
+							text2.setText("/ " + df.format(totalTime));
 						}
 					});
 				}

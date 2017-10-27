@@ -289,6 +289,9 @@ public class SampleController implements Initializable {
 		//filepath of file to be converted
 
 		String ipfilePath = of.toURI().toString();
+		
+		//Convert the file and output the converted file to the desktop
+		ConvertFile2MP4(ipfilePath);
 
 	}
 

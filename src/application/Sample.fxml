@@ -170,7 +170,7 @@
               <MenuItem fx:id="MopenFile" mnemonicParsing="false" onAction="#handleButtonAction" onMenuValidation="#handleButtonAction" text="Open File " />
 
                   <MenuItem fx:id="converFile" mnemonicParsing="false" onAction="#handleConvertFile" text="Convert File" />
-
+                  <MenuItem fx:id="networkVideo" mnemonicParsing="false" onAction="#handleOpenNetVideo" onMenuValidation="#handleOpenNetVideo" text="Open Network Video " />
             </items>
 
           </Menu>

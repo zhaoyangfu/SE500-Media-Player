@@ -2,55 +2,22 @@ package application;
 
 
 
-import java.awt.Dimension;
-
 import java.io.File;
-
 import java.io.IOException;
-
 import java.net.URL;
-
 import java.nio.file.Files;
-
 import java.nio.file.Paths;
-
 import java.text.DecimalFormat;
-
-import java.time.Duration;
-
-import java.util.Observable;
-
 import java.util.ResourceBundle;
-
-
-
-import javax.swing.event.ChangeListener;
-
-
-
-import com.sun.javafx.tk.Toolkit;
-
-
-
 import javafx.beans.InvalidationListener;
-
 import javafx.beans.binding.Bindings;
-
 import javafx.beans.property.DoubleProperty;
-
 import javafx.event.ActionEvent;
-
 import javafx.application.Platform;
-
-import javafx.beans.*;
-
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
-
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -60,25 +27,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
-
 import javafx.scene.media.MediaPlayer;
-
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
-
 import javafx.stage.Stage;
-
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.beans.property.adapter.*;
 
 
 
 
 public class SampleController implements Initializable {
 
-	// global varible to open a path of a file
+	// global variable to open a path of a file
 
 	private String filePath;
 
@@ -295,7 +257,10 @@ public class SampleController implements Initializable {
 
 	}
 
-
+	@FXML
+	private void handleOpenNetVideo(ActionEvent event) {
+		URLinput.display();
+	}
 
 	@FXML
 

@@ -292,7 +292,10 @@ public class SampleController implements Initializable {
 
 	}
 
-
+	@FXML
+	private void handleOpenNetVideo(ActionEvent event) {
+		URLinput.display();
+	}
 
 	@FXML
 

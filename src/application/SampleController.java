@@ -15,10 +15,14 @@ import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -32,6 +36,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.paint.Paint;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 
@@ -91,7 +96,11 @@ public class SampleController implements Initializable {
 	@FXML
 	private Button openFile ;
 	
-
+	@FXML
+	private Label ConversionWaitLabel;
+	
+	@FXML
+	private AnchorPane ConversionPopUp;
 
 
 	@FXML
@@ -122,22 +131,10 @@ public class SampleController implements Initializable {
 
 		}else {
 
-			//If there is already a converted file on the desktop, delete it first to ensure the system doesnt lock up
-
-			try {
-
-				Files.deleteIfExists(Paths.get(System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4"));
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-
-			}
-
 			//Convert the file to MP4 and process the file path to the correct format for the PlayFile function
 
 			String convfilepath = ConvertFile2MP4(filePath);
-
+			
 			convfilepath = convfilepath.replace("\\", "/");
 
 			convfilepath = "file:/" + convfilepath;
@@ -199,8 +196,14 @@ public class SampleController implements Initializable {
 		mp.setRate(1.5);
 
 	}
+	
+	@FXML
 
+	private void handleJumpSpecific(ActionEvent event) {
 
+		//Need to update this to do something
+	}
+	
 
 	@FXML
 
@@ -254,12 +257,12 @@ public class SampleController implements Initializable {
 		
 		//Convert the file and output the converted file to the desktop
 		ConvertFile2MP4(ipfilePath);
-
+		
 	}
 
 	@FXML
 	private void handleOpenNetVideo(ActionEvent event) {
-		URLinput.display();
+		//URLinput.display();
 	}
 
 	@FXML
@@ -356,7 +359,16 @@ public class SampleController implements Initializable {
 	@FXML
 
 	private void handleHelp(ActionEvent event) {
-
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HelpMenu.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setTitle("Help Menu");
+			stage.setScene(new Scene(root1));
+			stage.show();
+		}catch(Exception e) {
+			System.out.println("Error loading Help Menu");
+		}
 
 
 	}
@@ -504,7 +516,33 @@ public class SampleController implements Initializable {
 		//use the MP4Converter class to convert the file
 
 		MP4Converter mp4Converter = new MP4Converter(ffmpegdir, ffprobedir);
+		
+		//Open new pop-up dialog box to show user that the conversion is occurring
+		try {
+			FXMLLoader fxmlLoader1 = new FXMLLoader(getClass().getResource("ConversionPopUp.fxml"));
+			Parent root2 = (Parent) fxmlLoader1.load();
+			Stage stage1 = new Stage();
+			stage1.setTitle("Conversion in Progress");
+			stage1.setScene(new Scene(root2));
+			stage1.show();
+			
+		}catch(Exception e) {
+			System.out.println("Error opening popup");
+		}
+		
+		//If there is already a converted file on the desktop, delete it first to ensure the system doesnt lock up
 
+		try {
+
+			Files.deleteIfExists(Paths.get(System.getProperty("user.home")+"\\Desktop\\convertedfile.mp4"));
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+		
+		//Convert the file
 		try {
 
 			mp4Converter.convert(ipfilePath, opfilePath);
@@ -515,6 +553,7 @@ public class SampleController implements Initializable {
 
 		}
 
+        
 		return opfilePath;
 
 	}

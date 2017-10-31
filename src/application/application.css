@@ -8,7 +8,7 @@
 }
 
 
-#playButton {
+#playButton{
 	-fx-background-image: url("../image/PlayButton.PNG");
 -fx-background-size: 20 20;
 -fx-background-repeat: no-repeat ;

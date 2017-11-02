@@ -34,7 +34,7 @@ public class HelpMenuController {
     
     @FXML
     private void handleOpenNetworkMediaLink(ActionEvent event) {
-    	TextArea.setText("Need info from Zhaoyang for this one!!!");
+    	TextArea.setText("To Open a video from online sources:"+ '\n' + '\n' + "1. Select File->Open Network Video" + '\n' +"2. Enter or paste the video URL in the 'Please enter a network URL' input field"+ '\n' +"3. Press 'Submit' Button"+ '\n' + "4. Depending upon your internet bandwidth, the Media Player will begin playing the online video right from the local player");
     }
     
     @FXML

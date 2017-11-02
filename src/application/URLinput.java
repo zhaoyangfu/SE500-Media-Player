@@ -47,7 +47,6 @@ public class URLinput {
 	        });
 		});
 		
-
 		popupwindow1.setScene(myScene);
 		popupwindow1.show();
 

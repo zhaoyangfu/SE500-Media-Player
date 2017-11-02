@@ -1,5 +1,7 @@
 package application;
 
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.*;
@@ -23,7 +25,7 @@ public class URLinput {
 		rootNode.setAlignment(Pos.CENTER_LEFT);
 
 		Scene myScene = new Scene(rootNode, 500, 200);
-		rootNode.add(new Label("Please input a network URL:"), 0, 0);
+		rootNode.add(new Label("Please enter a network URL:"), 0, 0);
 
 		TextField url = new TextField();
 		rootNode.add(url, 1, 0);
@@ -38,11 +40,18 @@ public class URLinput {
 			webview.setPrefSize(640, 390);
 			popupwindow2.setScene(new Scene(webview));
 			popupwindow2.show();
+			popupwindow2.setOnCloseRequest(new EventHandler<WindowEvent>(){
+	            public void handle(WindowEvent event) {
+	            	webview.getEngine().load(null);
+	            }
+	        });
 		});
+		
 
 		popupwindow1.setScene(myScene);
 		popupwindow1.show();
 
 }
+
 
 }

@@ -29,12 +29,13 @@
                    </font>
                  </Label>
                  <ListView fx:id="listBoxMain" prefHeight="200.0" prefWidth="200.0" />
-                 <Label id="TextLbl" fx:id="LblAddText" text="Add Media" />
+                 <Label id="TextLbl" fx:id="LblAddText" text="Please press 'Exit' to save changes" />
                  
                              <HBox id="HBox" fx:id="HBox4Btns" alignment="CENTER" spacing="5.0">
                    <children>
                      <Button fx:id="BtnAdd" mnemonicParsing="false" onAction="#addAction" text="Add" />
                      <Button fx:id="BtnDelete" mnemonicParsing="false" onAction="#deleteAction" text="Delete" />
+                     <Button fx:id="BtnExit" mnemonicParsing="false" onAction="#exitAction" text="Exit" />
                    </children>
                  </HBox>
                </children>

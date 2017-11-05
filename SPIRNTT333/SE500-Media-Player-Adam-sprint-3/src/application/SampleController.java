@@ -298,7 +298,8 @@ public class SampleController implements Initializable {
 		@FXML
 
 		private void handleplayplayList(ActionEvent event) {
-
+			//open playlist.txt file
+			//play media one after the other
 	
 
 		}

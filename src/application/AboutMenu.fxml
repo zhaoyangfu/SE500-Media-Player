@@ -24,7 +24,7 @@
 
             </Label>
 
-            <TextArea id="HelpTextArea" fx:id="TextArea" editable="false" layoutX="111.0" layoutY="68.0" prefHeight="330.0" prefWidth="363.0" text="Product Version&#10;JavaCoffee Media Player Version 1.0.0&#10;&#10;Build Information&#10;Version 1.0.0&#10;Date: 11/4/2017&#10;Eclipse&#10;Java Version: 9+181, Oracle Corporation&#10;JavaFX Scene Builder 9.0.0&#10;&#10;&#10;Done by:&#10;Zhaoyang Fu &#10;Adam Borgh&#10;Hoda Al Ghadeer&#10;Faisal &#10;Matthew&#10;&#10;&#10;" wrapText="true" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="90.0" />
+            <TextArea id="HelpTextArea" fx:id="TextArea" editable="false" layoutX="111.0" layoutY="68.0" prefHeight="330.0" prefWidth="363.0" text="Product Version&#10;JavaCoffee Media Player Version 1.0.0&#10;&#10;Build Information&#10;Version 1.0.0&#10;Date: 11/4/2017&#10;Eclipse IDE for Java Developers Version: Oxygen.1 Release (4.7.1)&#10;JavaFX Scene Builder 9.0.0&#10;&#10;&#10;Done by:&#10;Zhaoyang Fu &#10;Adam Borgh&#10;Hoda Al Ghadeer&#10;Faisal &#10;Matthew&#10;&#10;&#10;" wrapText="true" AnchorPane.bottomAnchor="83.0" AnchorPane.leftAnchor="111.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="90.0" />
 
             <Button id="CloseButton" fx:id="closeButton" layoutX="274.0" layoutY="464.0" mnemonicParsing="false" onAction="#handleCloseButton" text="Close" />
 

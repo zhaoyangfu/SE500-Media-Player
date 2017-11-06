@@ -17,15 +17,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import java.text.DecimalFormat;
-
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import application.PlaylistController.LISTLIST;
 import javafx.beans.InvalidationListener;
 
 import javafx.beans.binding.Bindings;
 
 import javafx.beans.property.DoubleProperty;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 import javafx.application.Platform;
@@ -559,18 +561,34 @@ private MenuItem playList;
 
 	private void handlePlayList(ActionEvent event) throws IOException {
 
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Playlist.fxml"));
+			Parent root1 = (Parent) fxmlLoader.load();
+			Stage stage = new Stage();
+			stage.setTitle("Playlist");
+			stage.setScene(new Scene(root1));
+			stage.show();
+		}catch(Exception e) {
+			System.out.println("Error loading Playlist Menu");
+		}
+	}
+		static ObservableList<String> thelist = FXCollections.observableArrayList();
+		ArrayList<String> THELIST;
 
 
+	@FXML
+	private void handleplayplayList(ActionEvent event) throws IOException {
 
+		//String fileName = "Playlist.txt";
+		thelist = LISTLIST.listItems;
+		for(int i =0 ; i < thelist.size(); i++)
+	     {
+			PlayFile(thelist.get(i));   
+	     }
+		//System.out.println(thelist.get(0));
 		
 
-			
-
-		// write the function here (Matthew)
-
-
-
-	}
+	            }
 
 	@FXML
 

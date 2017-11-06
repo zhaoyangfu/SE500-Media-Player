@@ -108,7 +108,7 @@ public class PlaylistController implements Initializable {
 	  								
     FileChooser OpenFile=new FileChooser();
 	//to select kind of file we want to open 
-	FileChooser.ExtensionFilter filter=new FileChooser.ExtensionFilter("Select the file .mp4 file","*.mp4");
+	FileChooser.ExtensionFilter filter=new FileChooser.ExtensionFilter("Select the media file to play", "*.mp4", "*.mkv", "*.flv", "*.3gp", "*.avi", "*.mp3", "*.wmv");
 	OpenFile.getExtensionFilters().add(filter);
 	File of=OpenFile.showOpenDialog(null);
 	filePath=of.toURI().toString();

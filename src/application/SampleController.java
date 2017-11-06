@@ -244,54 +244,9 @@ private MenuItem playList;
 
 
 		
+		PlayMediaFile(filePath);
 
 
-
-		//Check to see if the file is an mp4 or mp3 and if not, convert the file first
-
-
-
-		if(filePath.endsWith(".mp4") || filePath.endsWith(".mp3")) {
-
-
-
-			//Play the file
-
-
-
-			PlayFile(filePath);
-
-
-
-		}else {
-
-
-
-			//Convert the file to MP4 and process the file path to the correct format for the PlayFile function
-
-
-
-			String convfilepath = ConvertFile2MP4(filePath);
-
-			
-
-			convfilepath = convfilepath.replace("\\", "/");
-
-
-
-			convfilepath = "file:/" + convfilepath;
-
-
-
-			//Play the file
-
-
-
-			PlayFile(convfilepath);
-
-
-
-		}
 
 
 
@@ -581,10 +536,10 @@ private MenuItem playList;
 
 		//String fileName = "Playlist.txt";
 		thelist = LISTLIST.listItems;
-		for(int i =0 ; i < thelist.size(); i++)
-	     {
-			PlayFile(thelist.get(i));   
-	     }
+		//for(int i =0 ; i < thelist.size(); i++)
+	     //{
+			PlayMediaFile(thelist.get(0));   
+	     //}
 		//System.out.println(thelist.get(0));
 		
 
@@ -1186,10 +1141,55 @@ private MenuItem playList;
 
 	}
 
+	public void PlayMediaFile(String filePath) {
+	
+	//Check to see if the file is an mp4 or mp3 and if not, convert the file first
+
+
+
+	if(filePath.endsWith(".mp4") || filePath.endsWith(".mp3")) {
+
+
+
+		//Play the file
+
+
+
+		PlayFile(filePath);
+
+
+
+	}else {
+
+
+
+		//Convert the file to MP4 and process the file path to the correct format for the PlayFile function
+
+
+
+		String convfilepath = ConvertFile2MP4(filePath);
+
+		
+
+		convfilepath = convfilepath.replace("\\", "/");
+
+
+
+		convfilepath = "file:/" + convfilepath;
+
+
+
+		//Play the file
+
+
+
+		PlayFile(convfilepath);
+
+
+
+	}
+	}}
 
 
 
 
-
-
-}

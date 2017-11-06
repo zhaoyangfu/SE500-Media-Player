@@ -1,1 +1,56 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+#openButton{
+	-fx-background-image: url("../image/openFile.PNG");
+-fx-background-size: 20 30;
+-fx-background-repeat: no-repeat ;
+-fx-background-position: center ;
+-fx-background-color: transparent;
+}
+
+
+#playButton{
+-fx-background-image: url("../image/PlayButton.PNG");
+-fx-background-size: 20 30;
+-fx-background-repeat: no-repeat ;
+-fx-background-position: center ;
+-fx-background-color: transparent;
+
+}
+
+#pauseButton{
+	
+-fx-background-image: url("../image/PauseButton.PNG");
+-fx-background-size: 20 30;
+-fx-background-repeat: no-repeat ;
+-fx-background-position: center ;
+-fx-background-color: transparent;
+}
+#stopButton{
+	-fx-background-image: url("../image/stopButton.PNG");
+-fx-background-size: 20 30;
+-fx-background-repeat: no-repeat ;
+-fx-background-position: center ;
+-fx-background-color: transparent;
+}
+#muteButton{
+	
+-fx-background-image: url("../image/mutteB.PNG");
+-fx-background-size: 20 30;
+-fx-background-repeat: no-repeat ;
+-fx-background-position: center ;
+-fx-background-color: transparent;
+}#forwardButton{
+	
+-fx-background-image: url("../image/fButton.PNG");
+-fx-background-size: 20 30;
+-fx-background-repeat: no-repeat ;
+-fx-background-position: center ;
+-fx-background-color: transparent;
+}#backButtob{
+	
+-fx-background-image: url("../image/backB.PNG");
+-fx-background-size: 20 30;
+-fx-background-repeat: no-repeat ;
+-fx-background-position: center ;
+-fx-background-color: transparent;
+}

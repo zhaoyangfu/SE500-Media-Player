@@ -19,6 +19,9 @@ import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
+
+import javax.sound.midi.ControllerEventListener;
 
 import application.PlaylistController.LISTLIST;
 import javafx.beans.InvalidationListener;
@@ -81,6 +84,7 @@ import javafx.stage.StageStyle;
 import javafx.fxml.Initializable;
 
 import javafx.geometry.Insets;
+
 
 
 
@@ -208,6 +212,8 @@ public class SampleController implements Initializable {
 
 @FXML
 private MenuItem playList; 
+
+
 
 
 
@@ -527,23 +533,44 @@ private MenuItem playList;
 			System.out.println("Error loading Playlist Menu");
 		}
 	}
+	
 		static ObservableList<String> thelist = FXCollections.observableArrayList();
-		ArrayList<String> THELIST;
-
-
-	@FXML
-	private void handleplayplayList(ActionEvent event) throws IOException {
-
-		//String fileName = "Playlist.txt";
-		thelist = LISTLIST.listItems;
-		//for(int i =0 ; i < thelist.size(); i++)
-	     //{
-			PlayMediaFile(thelist.get(0));   
-	     //}
-		//System.out.println(thelist.get(0));
 		
+		static class counting{
+			static int i=0;
+		}
+	@FXML
+	private void handleplayplayList(ActionEvent event) throws IOException, InterruptedException {
+		//if(MediaPlayer.getOnPlaying() != null){}
+		
+		thelist = LISTLIST.listItems;
+		counting.i=0;
+		PlayMediaFile(thelist.get(counting.i));
+		//if (timeSlider.getValue = 100 ) {
+		//	PlayMediaFile(thelist.get(1));
+		//}
+		
+	
+		//if (MediaPlayer.getState() == Controller.Started)
+		
+		//for(int i =0 ; i < thelist.size(); i++)
+	    // {
+		//	PlayMediaFile(thelist.get(i));
+			//wait(thelist.get(i).stop);
 
-	            }
+			
+		//	}
+	     
+	}
+	@FXML
+	private void handleplaynext(ActionEvent event) throws IOException, InterruptedException {
+		//if(MediaPlayer.getOnPlaying() != null){}
+		
+		counting.i++;
+		PlayMediaFile(thelist.get(counting.i));
+		
+	     
+	}
 
 	@FXML
 
@@ -926,7 +953,7 @@ private MenuItem playList;
 
 
 							double totalTime = mp.getTotalDuration().toSeconds();
-
+							
 
 
 							DecimalFormat df = new DecimalFormat("#.##");
@@ -944,7 +971,7 @@ private MenuItem playList;
 							text2.setText("/ " + df.format(totalTime));
 
 
-
+							
 						}
 
 

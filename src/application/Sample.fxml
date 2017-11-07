@@ -385,7 +385,7 @@
 
               <MenuItem fx:id="playList" mnemonicParsing="false" onAction="#handlePlayList" text="Playlist" />
 					<MenuItem fx:id="playplaylist" mnemonicParsing="false"  onAction="#handleplayplayList" text="Play Playlist" />
-
+						<MenuItem fx:id="playplaylist" mnemonicParsing="false"  onAction="#handleplaynext" text="Play Next" />
 
                   <MenuItem fx:id="fullScreen" mnemonicParsing="false" onAction="#handleFullScreen" text="Full Screen" />
 

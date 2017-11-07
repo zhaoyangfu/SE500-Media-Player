@@ -26,7 +26,7 @@ public class Main extends Application {
 
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
 			
-			Scene scene = new Scene(root,800,400);
+			Scene scene = new Scene(root,1000,400);
 
 			//write in the border or the stage 
 

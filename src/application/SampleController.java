@@ -176,7 +176,7 @@ public class SampleController implements Initializable {
 
 	@FXML
 
-	private HBox hBox ;
+	private HBox hbox ;
 
 	
 
@@ -572,38 +572,26 @@ private MenuItem playList;
 	     
 	}
 
-	@FXML
+	
 
 
 
-	private void handleBC(ActionEvent event) throws IOException {
+		@FXML
 
 
 
-
-		//BackgroundColor.BackgroudColor();
-		//Parent root1 = FXMLLoader.load(getClass().getResource("Sample.fxml"));
-		Paint fill = colorChooser.getValue();
-		BackgroundFill backgroundFill = new BackgroundFill(fill,CornerRadii.EMPTY,Insets.EMPTY);
-
-		Background background = new Background(backgroundFill);
-
-		stack.setBackground(background);
-
-		root.getChildren().add(colorChooser);
-		colorChooser.resizeRelocate(200, 10, 140, 30);
-	//	Scene scene = new Scene(root,140,30);
-		//colorChooser.getScene();
-	//root.getChildren().remove(colorChooser);
-		
-		
-
-			
-
-		// write the function here (Matthew)
+		private void handleBC(ActionEvent event) throws IOException {
 
 
+			Paint fill = colorChooser.getValue();
+			BackgroundFill backgroundFill = new BackgroundFill(fill,CornerRadii.EMPTY,Insets.EMPTY);
 
+			Background background = new Background(backgroundFill);
+
+			stack.setBackground(background);
+			hbox.setBackground(background);
+
+	
 	}
 
 
